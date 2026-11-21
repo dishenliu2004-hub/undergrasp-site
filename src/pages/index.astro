@@ -2,7 +2,7 @@
 import '../styles/site.css';
 
 const arxivUrl = '';
-const githubUrl = '';
+const githubUrl = 'https://github.com/dishenliu2004-hub/UnderGrasp';
 
 const trials = [
   ['Single object', 'single', 'Grasping individual test objects with the underactuated gripper.'],
@@ -42,9 +42,7 @@ const citation = `@misc{song2026undergrasp,
             {arxivUrl
               ? <a href={arxivUrl}>arXiv</a>
               : <button type="button" disabled>arXiv</button>}
-            {githubUrl
-              ? <a href={githubUrl}>GitHub</a>
-              : <button type="button" disabled>GitHub</button>}
+            <a href={githubUrl}>Code</a>
             <a href="#experiments">Experiments</a>
             <a href="#citation">BibTeX</a>
           </div>

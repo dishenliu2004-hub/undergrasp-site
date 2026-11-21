@@ -24,7 +24,7 @@ npm run dev
 
 四个实验视频的文件名依次为 `single.mp4`、`clutter.mp4`、`comparison.mp4`、`transport.mp4`，各自搭配同名 JPG 封面。第四项还会切换实验说明，并在右侧显示 `transport-results.png`。论文文件为 `undergrasp.pdf`。
 
-首页的 arXiv 和 GitHub 按钮分别使用 `src/pages/index.astro` 开头的 `arxivUrl` 和 `githubUrl`。地址为空时，对应按钮不可点击。拿到正式地址后，分别填入 arXiv 摘要页和 GitHub 仓库网页的 HTTPS 地址。
+首页的 **Code** 按钮通过 `src/pages/index.astro` 开头的 `githubUrl` 跳转到 UnderGrasp 代码仓库。**arXiv** 按钮在 `arxivUrl` 为空时显示为不可点击的占位。论文上线后，将 arXiv 摘要页的 HTTPS 地址填入 `arxivUrl`。
 
 ## 构建并放到网站
 
