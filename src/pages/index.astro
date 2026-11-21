@@ -38,13 +38,10 @@ const citation = `@misc{song2026undergrasp,
           <p class="aff"><sup>1</sup> Beijing Institute of Technology &nbsp; <sup>2</sup> Beijing University of Technology</p>
           <small>† Equal contribution · * Corresponding author</small>
           <div class="actions">
-            <a class="primary" href="./media/undergrasp.pdf">Read paper <span>PDF</span></a>
             {arxivUrl
               ? <a href={arxivUrl}>arXiv</a>
               : <button type="button" disabled>arXiv</button>}
             <a href={githubUrl}>Code</a>
-            <a href="#experiments">Experiments</a>
-            <a href="#citation">BibTeX</a>
           </div>
         </div>
         <figure class="feature"><video controls playsinline muted preload="none" poster="./media/envelopment.jpg" src="./media/envelopment.mp4" aria-label="Grasping demonstration"></video><figcaption>Parallel and enveloping grasps under the same external disturbance.</figcaption></figure>

@@ -7,7 +7,8 @@
 准备 Node.js 22 或 24 及 npm。解压后，在包含 `package.json` 的目录打开终端，依次运行：
 
 ```sh
-npm ci
+source ~/.nvm/nvm.sh
+nvm use 22
 npm run dev
 ```
 

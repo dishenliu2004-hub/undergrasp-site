@@ -40,6 +40,7 @@ h2 { font-size: clamp(1.75rem, 3vw, 2.35rem); }
 h3 { font-size: 1.45rem; }
 .lead { max-width: 740px; margin: 16px auto 24px; font-size: 1.075rem; line-height: 1.72; }
 .lead:last-child { margin-bottom: 0; }
+#abstract .lead { text-align: justify; }
 .method-intro, .simulation {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 260px);
