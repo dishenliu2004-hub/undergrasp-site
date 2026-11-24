@@ -10,10 +10,17 @@ const trials = [
   ['Method comparison', 'comparison', 'Compare the execution of grasp candidates across methods.'],
   ['Transport after grasping', 'transport', 'Post-grasp transport with AnyGrasp, fixed-depth insertion, and UnderGrasp.']
 ];
+const resultTables = [
+  ['single', 'Single object performance'],
+  ['clutter', 'Cluttered scene performance'],
+  ['comparison', 'Overall performance']
+] as const;
 const results = [
-  ['AnyGrasp', '55%', '12%'], ['AnyGrasp + 40 mm insertion', '52%', '35%'],
-  ['AnyGrasp + UnderGrasp', '82%', '55%'], ['GraspNet', '42%', '8%'],
-  ['GraspNet + UnderGrasp', '65%', '36%']
+  { label: 'AnyGrasp', single: ['63%', '11%'], clutter: ['47%', '14%'], comparison: ['55%', '12%'] },
+  { label: 'AnyGrasp + 40 mm insertion', single: ['57%', '47%'], clutter: ['47%', '21%'], comparison: ['52%', '35%'] },
+  { label: 'AnyGrasp + UnderGrasp', single: ['83%', '60%'], clutter: ['80%', '50%'], comparison: ['82%', '55%'] },
+  { label: 'GraspNet', single: ['53%', '13%'], clutter: ['30%', '0%'], comparison: ['42%', '8%'] },
+  { label: 'GraspNet + UnderGrasp', single: ['77%', '35%'], clutter: ['53%', '38%'], comparison: ['65%', '36%'] }
 ];
 const citation = `@misc{song2026undergrasp,
   title = {UnderGrasp: Envelopment-Oriented Grasp Refinement for an Underactuated Gripper},
@@ -79,7 +86,21 @@ const citation = `@misc{song2026undergrasp,
         </div>
         <div class="result-grid">
             <figure><video id="trial" controls playsinline preload="none" poster="./media/single.jpg" src="./media/single.mp4" aria-label="Single object"></video><figcaption id="trial-caption" aria-live="polite">{trials[0][2]}</figcaption></figure>
-          <div id="grasp-results"><h3>Overall performance</h3><table><thead><tr><th>Method</th><th>SR</th><th>ER</th></tr></thead><tbody>{results.map(([label,sr,er]) => <tr class:list={[{ours:label.includes('UnderGrasp')}]}><th scope="row">{label}</th><td>{sr}</td><td>{er}</td></tr>)}</tbody></table><p class="note">SR is the fraction of all trials that succeed. ER is the fraction of successful grasps that envelop the object.</p></div>
+          <div id="grasp-results">
+            {resultTables.map(([clip, title]) => (
+              <div data-grasp-results={clip} hidden={clip !== 'single'}>
+                <h3>{title}</h3>
+                <table>
+                  <thead><tr><th>Method</th><th>SR</th><th>ER</th></tr></thead>
+                  <tbody>{results.map(result => {
+                    const [sr, er] = result[clip];
+                    return <tr class:list={[{ours:result.label.includes('UnderGrasp')}]}><th scope="row">{result.label}</th><td>{sr}</td><td>{er}</td></tr>;
+                  })}</tbody>
+                </table>
+              </div>
+            ))}
+            <p class="note">SR is the fraction of all trials that succeed. ER is the fraction of successful grasps that envelop the object.</p>
+          </div>
           <figure id="transport-results" hidden>
             <h3>Transport performance</h3>
             <img loading="lazy" src="./media/transport-results.png" alt="At 40%, 70% and 100% speed, successful runs out of five were 5, 4, 3 with UnderGrasp, 4, 3, 2 with fixed insertion, and 1, 0, 0 with AnyGrasp." />
@@ -102,6 +123,7 @@ const citation = `@misc{song2026undergrasp,
       });
       const player = document.querySelector<HTMLVideoElement>('#trial')!;
       const graspResults = document.querySelector<HTMLElement>('#grasp-results')!;
+      const graspTables = graspResults.querySelectorAll<HTMLElement>('[data-grasp-results]');
       const transportResults = document.querySelector<HTMLElement>('#transport-results')!;
       const graspProtocol = document.querySelector<HTMLElement>('#grasp-protocol')!;
       const transportProtocol = document.querySelector<HTMLElement>('#transport-protocol')!;
@@ -114,6 +136,7 @@ const citation = `@misc{song2026undergrasp,
           graspProtocol.hidden = transport;
           transportProtocol.hidden = !transport;
           graspResults.hidden = transport;
+          graspTables.forEach(table => { table.hidden = table.dataset.graspResults !== button.dataset.clip; });
           transportResults.hidden = !transport;
           player.poster = './media/' + button.dataset.clip + '.jpg';
           player.src = './media/' + button.dataset.clip + '.mp4';
